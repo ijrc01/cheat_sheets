@@ -1,24 +1,24 @@
 Windows Update Service Remiedation
-  net stop wuauserv
-	net stop bits
+ 	net stop wuauserv
+  net stop bits
   net stop cryptSvc
   net stop msiserver
   SC config wuauserv start= auto
-	SC config bits start= auto
-	SC config cryptsvc start= auto
-	SC config trustedinstaller start= auto
-	net start wuauserv
-	net start bits
+  SC config bits start= auto
+  SC config cryptsvc start= auto
+  SC config trustedinstaller start= auto
+  net start wuauserv
+  net start bits
   net start cryptSvc
   net start msiserver
   
 Windows 10 Troubleshooting
 	CHKDSK /scan
-	 CHKDSK /f c:
+	CHKDSK /f c:
 	SFC /scannow
 	DISM /Online /Cleanup-Image /CheckHealth
 	DISM /Online /Cleanup-Image /ScanHealth
-	 DISM /Online /Cleanup-image /Restorehealth
+	DISM /Online /Cleanup-image /Restorehealth
 
 Find files larger than X (cmd prompt)
 	for /r c:\ %i in (*) do @if %~zi gtr 100000000 echo %i %~zi		            files greater than 100MB
