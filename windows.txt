@@ -1,5 +1,5 @@
 Windows Update Service Remiedation
-	net stop wuauserv
+  net stop wuauserv
   net stop bits
   net stop cryptSvc
   net stop msiserver
