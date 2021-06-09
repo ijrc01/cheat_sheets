@@ -21,19 +21,19 @@ Windows 10 Troubleshooting
   DISM /Online /Cleanup-image /Restorehealth
 
 Find files larger than X (cmd prompt)
-	for /r c:\ %i in (*) do @if %~zi gtr 100000000 echo %i %~zi		            files greater than 100MB
-	for /r c:\ %i in (*) do @if %~zi gtr 500000000 echo %i %~zi		            files greater than 500MB
- 	for /r c:\ %i in (*) do @if %~zi gtr 1000000000 echo %i %~zi	            files greater than 1GB
+  for /r c:\ %i in (*) do @if %~zi gtr 100000000 echo %i %~zi		            files greater than 100MB
+  for /r c:\ %i in (*) do @if %~zi gtr 500000000 echo %i %~zi		            files greater than 500MB
+  for /r c:\ %i in (*) do @if %~zi gtr 1000000000 echo %i %~zi	            files greater than 1GB
   
 Windows Clean Disk to clear up HD space
-	cleanmgr /AUTOCLEAN                     will remove files from the previous Windows installation or the previous in-place upgrade automatically; runs silently, no user interaction
+  cleanmgr /AUTOCLEAN                     remove files from the previous Windows installation or the previous in-place upgrade automatically; runs silently
 
 Windows Event Log - failed/successfull logins
   4625 - Message - An account failed to log on
   4624 - Message - An account was successfully logged on
   
     2 – Interactive – GUI                 Locally, when the user has direct access to the console
-    3 – Network – Net Use (SMB share)		  Only used after an account authentication such as user, computer, service has already taken place;  accessing shared folders, printers, GPOs, and most logons to IIS. 
+    3 – Network – Net Use (SMB share)	  Only used after an account authentication such as user, computer, service has already taken place;  accessing shared folders, printers, GPOs, and most logons to IIS. 
     4 – Batch                             Scheduled task execution; possibly executing on behalf of user
     5 – Service                           Windows services; Starting of a service first results in a Logon/Logoff event
     7 – Unlock                            User unlocks the password protected screen after idle/screensaver
@@ -43,20 +43,20 @@ Windows Event Log - failed/successfull logins
     11 – Cached Interactive (laptops)     When client is off the network or DC is unavailable, Windows uses hashes to verify the identity
 
 Ping to test packet loss
-	ping -n 50 -l 1000 8.8.8.8
+  ping -n 50 -l 1000 8.8.8.8
   
 Windows File Locations
-	C:\Windows\SoftwareDistribution\Download			    windows updates download location
-	C:\Windows\System32\winevt\Logs 					        windows event logs
+  C:\Windows\SoftwareDistribution\Download			    windows updates download location
+  C:\Windows\System32\winevt\Logs 					        windows event logs
   
 Silently install .msu
-	wusa.exe windows10.0-kb5003169.msu /quiet /norestart
+  wusa.exe windows10.0-kb5003169.msu /quiet /norestart
   
 Expand .msu to get .cab and then install
-	mkdir c:\TEMP\KB2992611
-	expand -F:* "Windows6.1-KB2992611-x64.msu" "c:\TEMP\KB2992611"
-	cd KB2992611
-	dism.exe /online /add-package /packagepath:"Windows6.1-KB2992611-x64.cab" /quiet /norestart /logpath:"install_log.txt"
+  mkdir c:\TEMP\KB2992611
+  expand -F:* "Windows6.1-KB2992611-x64.msu" "c:\TEMP\KB2992611"
+  cd KB2992611
+  dism.exe /online /add-package /packagepath:"Windows6.1-KB2992611-x64.cab" /quiet /norestart /logpath:"install_log.txt"
   
 Windows Event Viewer (Powershell)
   Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4624} -MaxEvents 5 | Format-List                           Show recent successful logins from Security log
@@ -77,11 +77,11 @@ Disable SSLv2/3 from regedit
   Alternative tool: IISCrypto https://www.nartac.com/Products/IISCrypto/
   
 WMIC
-  wmic OS GET NAME 						                                                                                        Return OS name
-	wmic qfe list full /format:table 		                                                                                List of installed KBs (alternative: systeminfo)
-	wmic useraccount where "LocalAccount='TRUE'" get Caption, Disabled, Domain, Lockout, PasswordExpires, SID, Status   List of local accounts
-	wmic process get ProcessId,Description,ParentProcessId,ReadOperationCount,WriteOperationCount                       List running processes
-	wmic product get Caption,Vendor,version,InstallDate                                                                 List installed applications
+  wmic OS GET NAME 						                                                      Return OS name
+  wmic qfe list full /format:table 		                                                                      List of installed KBs (alternative: systeminfo)
+  wmic useraccount where "LocalAccount='TRUE'" get Caption, Disabled, Domain, Lockout, PasswordExpires, SID, Status   List of local accounts
+  wmic process get ProcessId,Description,ParentProcessId,ReadOperationCount,WriteOperationCount                       List running processes
+  wmic product get Caption,Vendor,version,InstallDate                                                                 List installed applications
       
   query WMIC on remote domain-joined PC: /NODE:10.10.10.97 /USER:"domain\user"            #where 'domain\user' is domain admin
    
