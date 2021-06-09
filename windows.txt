@@ -98,3 +98,20 @@ Services
   sc config wuauserv start= auto
   net stop wuauserv
   net start wuauserv
+  
+SMB Network Shares
+  Get-Acl -Path \\Server01\ShareName  | Format-Table -Wrap        NTFS fileshares
+  
+  Remote enumerate folder share permissions
+    script.ps1:
+      $shares = Get-SMBShare 
+      Foreach($share in $shares){Get-SmbShareAccess -Name $share.Name}
+    Then:
+      Invoke-Command -FilePath .\script.ps1 -ComputerName 'Server01'
+  
+  Report on localhost path name assoicated with Network Share
+    $Result = Invoke-Command -ScriptBlock { Get-SMBShare } -ComputerName 'Server01'
+    $Result | Export-Csv .\Get-SMBShare.csv -NoTypeInformation
+  
+  
+
