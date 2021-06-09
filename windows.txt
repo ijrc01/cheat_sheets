@@ -112,6 +112,9 @@ SMB Network Shares
   Report on localhost path name assoicated with Network Share
     $Result = Invoke-Command -ScriptBlock { Get-SMBShare } -ComputerName 'Server01'
     $Result | Export-Csv .\Get-SMBShare.csv -NoTypeInformation
+    
+Enable Powershell
+  Set-ExecutionPolicy -ExecutionPolicy AllSigned -Scope Process
   
   
 
