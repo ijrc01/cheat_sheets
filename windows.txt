@@ -13,12 +13,12 @@ Windows Update Service Remiedation
   net start msiserver
   
 Windows 10 Troubleshooting
-	CHKDSK /scan
-	CHKDSK /f c:
-	SFC /scannow
-	DISM /Online /Cleanup-Image /CheckHealth
-	DISM /Online /Cleanup-Image /ScanHealth
-	DISM /Online /Cleanup-image /Restorehealth
+  CHKDSK /scan
+  CHKDSK /f c:
+  SFC /scannow
+  DISM /Online /Cleanup-Image /CheckHealth
+  DISM /Online /Cleanup-Image /ScanHealth
+  DISM /Online /Cleanup-image /Restorehealth
 
 Find files larger than X (cmd prompt)
 	for /r c:\ %i in (*) do @if %~zi gtr 100000000 echo %i %~zi		            files greater than 100MB
