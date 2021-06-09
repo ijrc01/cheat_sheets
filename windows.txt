@@ -48,10 +48,12 @@ Ping to test packet loss
   ping -n 50 -l 1000 8.8.8.8
   
 Windows File Locations
-  C:\Windows\SoftwareDistribution\Download			            windows updates download location
-  C:\Windows\System32\winevt\Logs 					                windows event logs
-  C:\ProgramData\MspPlatform\FileCacheServiceAgent\cache    Solarwinds patch cache
-  C:\ProgramData\MspPlatform\PME\archives                   Solarwinds patch archive
+  C:\Windows\SoftwareDistribution\Download			              windows updates download location
+  C:\Windows\System32\winevt\Logs 					                  windows event logs
+  C:\ProgramData\MspPlatform\FileCacheServiceAgent\cache      Solarwinds patch cache
+  C:\Users\All Users\MspPlatform\FileCacheServiceAgent\cache  Solarwinds patch cache alternative
+  C:\ProgramData\MspPlatform\PME\archives                     Solarwinds patch archive
+  
   
 Silently install .msu
   wusa.exe windows10.0-kb5003169.msu /quiet /norestart
