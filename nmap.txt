@@ -1,0 +1,2 @@
+sudo nmap --script ssl-enum-ciphers -p 443 -vvv 10.11.12.13     Check ciphers
+sudo nmap 10.10.10.0/24 -Pn -p 2381 -T1 -vv -oG port_2381.txt   Scan for specific port and output to grep file; STEALTH SCAN
