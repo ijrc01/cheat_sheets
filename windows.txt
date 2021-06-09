@@ -1,6 +1,7 @@
 Windows Update Service Remiedation
   net stop wuauserv
   net stop bits
+  rename %windir%\SoftwareDistribution SoftwareDistribution.bak
   net stop cryptSvc
   net stop msiserver
   SC config wuauserv start= auto
