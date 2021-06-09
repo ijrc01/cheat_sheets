@@ -90,6 +90,7 @@ WMIC
   wmic product get Caption,Vendor,version,InstallDate                                                                 List installed applications
       
   query WMIC on remote domain-joined PC: /NODE:10.10.10.97 /USER:"domain\user"            #where 'domain\user' is domain admin
+  WMIC /NODE:192.168.1.1 COMPUTERSYSTEM GET USERNAME                                      Display signed-in users
    
    
 Services
@@ -115,6 +116,9 @@ SMB Network Shares
     
 Enable Powershell
   Set-ExecutionPolicy -ExecutionPolicy AllSigned -Scope Process
+  
+ query user       see users currently signed into machine
+ 
   
   
 
