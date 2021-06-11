@@ -1,0 +1,209 @@
+SMB
+
+Windows
+If SMBv1 disabled, HMAC-SHA256 encryption algorithm needed to support SMBv2/2.1
+
+  net view 				                      displays a list of computers in your current domain
+  net view \\PC 			                  displays domain/computer/resources shared by PC
+  net view localhost 		                same as above, but for localhost
+  net view \\PC /ALL 		                same as above, but also displays the $ shares
+
+Establish SMB connection
+  net use \\<ip>
+  net use \\<ip>\folder /u:<username> password
+  net use \\<ip> "" /u:"" ---- anonymous
+  net use z: \\<ip>\folder
+
+See Outbound SMB connections
+  net use 				                    see where you, as client, have established outbound SMB connections
+  net use \\<ip> /del 		            drop an outbound SMB connection
+
+See Inbound SMB Connections 
+(usually only DC and file shares)
+  net session 			                  see who has established inbound SMB connections to your server (req. admin)
+  net session \\<ip> /del 	          drop an inbound SMB connection
+
+Misc
+  net start 				                  services & status
+  net user 				                    see user accounts (use /domain when on DC)
+  net localgroup administrators       see admins
+
+Examples:
+net view
+  C:\Users\no> net view
+  Server Name            Remark
+
+  -----------------------------------
+  \\WIN7ESXI
+  The command completed successfully.
+
+  net view \\<ip>
+  C:\Users\no> net view \\WIN7ESXI
+  Shared resources at \\WIN7ESXI
+
+
+
+  Share name  Type  Used as  Comment
+
+  -----------------------------------
+  Apps        Disk
+  Users       Disk
+  The command completed successfully.
+
+net view \\<ip> /all
+  C:\Users\no> net view \\WIN7ESXI /all
+  Shared resources at \\WIN7ESXI
+
+  Share name  Type  Used as  Comment
+
+  -----------------------------------------
+  ADMIN$      Disk           Remote Admin
+  Apps        Disk
+  C$          Disk           Default share (*need admin to connect*)
+  IPC$        IPC            Remote IPC
+  Users       Disk
+  The command completed successfully.
+
+  net session
+  C:\Windows\system32> net session
+
+  Computer               User name            Client Type       Opens Idle time
+
+  -------------------------------------------------------------------------------
+  \\192.168.7.228        no                                         0 00:00:17
+  The command completed successfully.
+
+net start
+  C:\Windows\system32> net start
+  These Windows services are started:
+
+     Application Information
+     Background Intelligent Transfer Service
+     Base Filtering Engine
+     Certificate Propagation
+     COM+ Event System
+     Computer Browser
+     Cryptographic Services
+     <…>
+
+net user
+  C:\Windows\system32> net user
+
+  User accounts for \\WIN7ESXI
+
+  -------------------------------------------------------------------------------
+  Administrator            Guest                    no
+
+net localgroup administrators
+  C:\Windows\system32> net localgroup administrators
+  Alias name     administrators
+  Comment        Administrators have complete and unrestricted access to the computer/domain
+
+  Members
+
+  -------------------------------------------------------------------------------
+  Administrator
+  no
+  The command completed successfully.
+
+
+Linux
+Rpcclient
+  $ rpcclient 192.168.7.36 -U no                                                                                                                                         
+  Enter WORKGROUP\no's password:
+ 
+enumdomusers - enumerating users defined locally on the target server as well as any domain users the system knows about                                                                                                                                                    
+rpcclient $> enumdomusers                                                                                                                                                      
+  user:[Administrator] rid:[0x1f4]                                                                                                                                               
+  user:[Guest] rid:[0x1f5]
+  user:[HomeGroupUser$] rid:[0x3ea]
+  user:[no] rid:[0x3e9]
+
+queryuser <rid>
+rpcclient $> queryuser 0x3e9
+          User Name   :   no
+          Full Name   :
+          Home Drive  :
+          Dir Drive   :
+          Profile Path:
+          Logon Script:
+          Description :
+          Workstations:
+          Comment     :
+          Remote Dial :
+          Logon Time               :      Mon, 26 Apr 2021 23:35:21 EDT
+          Logoff Time              :      Wed, 31 Dec 1969 19:00:00 EST
+          Kickoff Time             :      Wed, 13 Sep 30828 22:48:05 EDT
+          Password last set Time   :      Fri, 11 Dec 2020 21:59:04 EST
+          Password can change Time :      Fri, 11 Dec 2020 21:59:04 EST
+          Password must change Time:      Wed, 13 Sep 30828 22:48:05 EDT
+          unknown_2[0..31]...
+          user_rid :      0x3e9
+          group_rid:      0x201
+          acb_info :      0x00000214
+          fields_present: 0x00ffffff
+          logon_divs:     168
+          bad_password_count:     0x00000000
+          logon_count:    0x00000045
+          padding1[0..7]...
+          logon_hrs[0..21]...
+
+enumdomgroups
+rpcclient $> enumdomgroups
+  group:[None] rid:[0x201]
+
+querygroup <rid>
+rpcclient $> querygroup 0x201
+        Group Name:     None
+        Description:    Ordinary users
+        Group Attribute:7
+        Num Members:4
+
+enumalsgroups builtin
+rpcclient $> enumalsgroups builtin                                                                                                                                             
+  group:[Administrators] rid:[0x220]                                                                                                                                             
+  group:[Backup Operators] rid:[0x227]
+  group:[Cryptographic Operators] rid:[0x239]
+  group:[Distributed COM Users] rid:[0x232]
+  group:[Event Log Readers] rid:[0x23d]
+  group:[Guests] rid:[0x222]
+  group:[IIS_IUSRS] rid:[0x238]
+  group:[Network Configuration Operators] rid:[0x22c]
+  group:[Performance Log Users] rid:[0x22f]
+  group:[Performance Monitor Users] rid:[0x22e]
+  group:[Power Users] rid:[0x223]
+  group:[Remote Desktop Users] rid:[0x22b]
+  group:[Replicator] rid:[0x228]
+  group:[Users] rid:[0x221]
+
+getdompwinfo
+rpcclient $> getdompwinfo
+  min_password_length: 0
+  password_properties: 0x00000000
+
+getusrdompwinfo <rid>
+rpcclient $> getusrdompwinfo 0x3e9
+    &info: struct samr_PwInfo
+        min_password_length      : 0x0000 (0)
+        password_properties      : 0x00000000 (0)
+               0: DOMAIN_PASSWORD_COMPLEX  
+               0: DOMAIN_PASSWORD_NO_ANON_CHANGE
+               0: DOMAIN_PASSWORD_NO_CLEAR_CHANGE
+               0: DOMAIN_PASSWORD_LOCKOUT_ADMINS
+               0: DOMAIN_PASSWORD_STORE_CLEARTEXT
+               0: DOMAIN_REFUSE_PASSWORD_CHANGE
+
+lookupnames <name>
+rpcclient $> lookupnames Joe                                                                                                                                                  
+  Joe S-1-5-21-665900345-328151611-1509779002-1001 (User: 1)
+
+lookupsids <sid>
+rpcclient $> lookupsids S-1-5-21-665900345-328151611-1509779002-1001                                                                                                           
+  S-1-5-21-665900345-328151611-1509779002-1001 Win7\Joe (1)
+
+srvinfo
+rpcclient $> srvinfo
+        192.168.10.3   Wk Sv NT PtB LMB     
+        platform_id     :       500
+        os version      :       6.1
+        server type     :       0x51003
