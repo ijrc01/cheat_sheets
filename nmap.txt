@@ -1,2 +1,165 @@
-sudo nmap --script ssl-enum-ciphers -p 443 -vvv 10.11.12.13     Check ciphers
-sudo nmap 10.10.10.0/24 -Pn -p 2381 -T1 -vv -oG port_2381.txt   Scan for specific port and output to grep file; STEALTH SCAN
+NMAP
+
+Common Scans
+    sudo nmap --script ssl-enum-ciphers -p 443 -vvv 10.11.12.13             Check ciphers
+    sudo nmap 10.10.10.0/24 -Pn -p 2381 -T1 -vv -oG port_2381.txt           Scan for specific port and output to grep file; STEALTH SCAN
+    sudo nmap -v -Pn --script=vuln -p 80 192.168.100.1
+    sudo nmap -v -Pn 192.168.100.1	
+    sudo nmap -v -Pn -O --osscan-limit -sV -sC 192.168.100.1
+    sudo nmap -v -Pn --script http-sql-injection -p80 192.168.100.1
+
+Basic Scanning Techniques
+	-Pn 					Do not ping
+	-O 					OS detection
+	-sV 					Service Version Detection
+	-sC 					Run default scripts
+-oG scan.txt				Grep-able output
+
+	-A 					Aggressive Scan (enables -O -sV -sC --traceroute)
+	-v 					Verbose output (-v, -vv, -vvv)
+	-6 					Scan an IPv6 Target
+[ip address/cdir] 			Scan an Entire Subnet
+	[range of IP addresses] 		Scan a Range of Hosts
+	-iL [list.txt] 				Scan a List of Targets
+	-iR [number]				Scan Random Hosts
+	--exclude [targets] 			Exclude Targets from a Scan
+	--excludefile [list.txt] 			Exclude Targets Using a List
+	-V 					NMAP version
+	-d 					debug
+											
+	--reason 				Display Port State Reason
+	--open 					Only Display Open Ports
+	--stats-every [time] 			Periodically Display Statistics
+
+	-sA 					TCP ACK scan
+	-sF 					TCP FIN scan
+	-sI 					IDLE scan
+	-sN 					TCP NULL scan
+	-sO 					Protocol scan
+	-sP 					Ping scan
+	-sR 					RPC scan
+	-sS 					SYN scan
+	-sT 					TCP connect scan
+	-sW 					Windows scan
+	-sX 					XMAS scan
+	-sU 					UDP scan
+
+Port Scanning Options
+	-F 					Perform a Fast Scan
+	-p [port(s)]				Scan Specific Ports
+	-p [port name(s)] 			Scan Ports by Name 	
+	-sU -sT -p U:[ports],T:[ports] 		Scan Ports by Protocol 
+	-p- 					Scan all ports
+	--top-ports [number] 			Scan Top Ports, n highest-ratio ports
+	-r 					Perform a Sequential Port Scan
+	-sR 					Perform a RPC Scan
+	
+OS Scanning
+	-O 					OS detection
+	-O --osscan-guess			OS detection with aggressive guessing
+	-O --osscan-limit			OS detection, limit to promising targets
+
+Service Version Scanning
+	-sV 					Service Version Detection
+	-sV --version-trace 			Troubleshoot Version Scan
+
+Nmap Scripting Engine
+	-sC 					Run default scripts
+	--script [script]				Execute individual scripts
+	--script [expression] 			Execute Multiple Scripts
+	--script [category] 			Execute Scripts by Category
+	--script [category1,category2,etc] 	Execute Multiple Script Categories
+	--script [script] --script-trace 		Troubleshoot Scripts
+	--script-updatedb 			Update the Script Database
+
+Host Discovery 
+	-PI 					ICMP ping
+	-PS 					TCP SYN ping
+	-PA 					TCP ACK ping
+	-PT 					TCP ping
+	-Pn 					Do not ping
+	-PU 					UDP ping
+	-PY 					SCTP INIT Ping
+	-PE 					ICMP Echo Ping
+	-PP					ICMP Timestamp Ping
+	-PM 					ICMP Address Mask Ping
+	-PO 					IP Protocol Ping
+	-PR 					ARP ping
+	-sn 					Ping only scan
+	--Traceroute 				Traceroute
+	-R 					Force Reverse DNS Resolution
+	-n 					Disable Reverse DNS Resolution
+	--system-dns 				Alternative DNS Lookup
+	--dns-servers [servers]		Manually Specify DNS Server(s)
+	-sL [targets] 				Create a host list to scan (AKA DNS scan)
+
+Timing and Performance
+	-T0 			Serial, slowest scan 	(aka Paranoid, use with IDS/FW evasion)
+	-T1 			Serial, slow scan 	(aka Sneaky, use with IDS/FW evasion)
+	-T2 			Serial, normal speed scan 	(aka Polite, can take 10x longer)
+	-T3 			Parallel, normal speed scan 	(DEFAULT, aka Normal)
+	-T4 			Parallel, fast scan 	(aka Aggressive, nmap man recommends)
+	-T5 			Parallel, super fast scan	(aka Insane)
+
+Firewall/IDS Evasion & Spoofing
+	-f 					Fragment Packets
+	-mtu 					Specify a Specific MTU
+	-D RND:[number] 			Use a Decoy
+	-sI [zombie ip] 				Idle Zombie Scan
+	--source-port [port]			Manually Specify a Source Port
+	--data-length [size]			Append Random Data
+	--randomize-hosts			Randomize Target Scan Order
+	--spoof-mac [MAC|0|vendor]	Spoof MAC Address
+	--badsum 				Send Bad Checksums
+
+Advanced Scanning Functions
+	--scanflags [flags]			Custom TCP Scan
+	--send-eth				Send Raw Ethernet Packets
+	--send-ip				Send IP Packets
+
+Timing Options
+	--ttl [time]				Set the Packet TTL
+	--min-parallelism [number] 		Minimum Number of Parallel Operations
+	--max-parallelism [number] 		Maximum Number of Parallel Operations
+	--min-hostgroup [number] 		Minimum Host Group Size
+	--max-hostgroup [number] 		Maximum Host Group Size
+	--initial-rtt-timeout [time] 		Maximum RTT Timeout
+	--max-rtt-timeout [TTL] 		Initial RTT Timeout
+	--max-retries [number] 		Maximum Number of Retries
+	--host-timeout [time] 			Host Timeout
+	--scan-delay [time] 			Minimum Scan Delay
+	--max-scan-delay [time] 		Maximum Scan Delay
+	--min-rate [number] 			Minimum Packet Rate
+	--max-rate [number] 			Maximum Packet Rate
+	--defeat-rst-ratelimit 			Defeat Reset Rate Limits
+
+Output Options
+	-oN scan.txt 				Normal output
+	-oX scan.xml				XML output
+	-oG scan.txt				Grepable output
+	-oA scan				    Normal, XML, and Grepable format all at once
+	-oS scan.txt 				1337 Output
+
+Compare Scans
+	ndiff [scan1.xml] [scan2.xml] 			    Comparison Using Ndiff
+	ndiff -v [scan1.xml] [scan2.xml]		    Ndiff Verbose Mode
+	ndiff --xml [scan1.xml] [scan2.xml] 		XML Output Mode
+
+Misc Other
+	--packet-trace 			Trace Packets
+	--iflist 				    Display Host Networking interfaces (no target IP specified)
+	-e [interface] 			Specify a Network Interface (no target IP specified)
+
+--Port Status--
+	Open 				response received; service is listening and responding
+	Closed 				response received; but in a form of a rest or exception
+	Filter 				Vague; nothing heard back; possibly no client
+
+--Misc Other Scripts--
+Port 445 / SMB Shares port open
+	nmap -v -Pn --script smb-enum-shares.nse,smb-enum-users -p 445 10.10.201.33 
+	smbclient //10.10.201.33/anonymous
+
+Port 111 / RPC Bind
+	nmap -v -Pn --script=nfs-ls,nfs-statfs,nfs-showmount -p 111 10.10.201.33
+
