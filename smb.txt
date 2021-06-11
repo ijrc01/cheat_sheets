@@ -30,7 +30,7 @@ Misc
 
 Examples:
 net view
-  C:\Users\no> net view
+  C:\Users\Joe> net view
   Server Name            Remark
 
   -----------------------------------
@@ -38,7 +38,7 @@ net view
   The command completed successfully.
 
   net view \\<ip>
-  C:\Users\no> net view \\WIN7
+  C:\Users\Joe> net view \\WIN7
   Shared resources at \\WIN7
 
 
@@ -51,7 +51,7 @@ net view
   The command completed successfully.
 
 net view \\<ip> /all
-  C:\Users\no> net view \\WIN7 /all
+  C:\Users\Joe> net view \\WIN7 /all
   Shared resources at \\WIN7
 
   Share name  Type  Used as  Comment
