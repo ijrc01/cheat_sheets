@@ -13,17 +13,17 @@ Basic Scanning Techniques
 	-O 					OS detection
 	-sV 					Service Version Detection
 	-sC 					Run default scripts
--oG scan.txt				Grep-able output
+	-oG scan.txt				Grep-able output
 
 	-A 					Aggressive Scan (enables -O -sV -sC --traceroute)
 	-v 					Verbose output (-v, -vv, -vvv)
 	-6 					Scan an IPv6 Target
-[ip address/cdir] 			Scan an Entire Subnet
+	[ip address/cdir] 			Scan an Entire Subnet
 	[range of IP addresses] 		Scan a Range of Hosts
 	-iL [list.txt] 				Scan a List of Targets
 	-iR [number]				Scan Random Hosts
 	--exclude [targets] 			Exclude Targets from a Scan
-	--excludefile [list.txt] 			Exclude Targets Using a List
+	--excludefile [list.txt] 		Exclude Targets Using a List
 	-V 					NMAP version
 	-d 					debug
 											
@@ -65,11 +65,11 @@ Service Version Scanning
 
 Nmap Scripting Engine
 	-sC 					Run default scripts
-	--script [script]				Execute individual scripts
+	--script [script]			Execute individual scripts
 	--script [expression] 			Execute Multiple Scripts
 	--script [category] 			Execute Scripts by Category
 	--script [category1,category2,etc] 	Execute Multiple Script Categories
-	--script [script] --script-trace 		Troubleshoot Scripts
+	--script [script] --script-trace 	Troubleshoot Scripts
 	--script-updatedb 			Update the Script Database
 
 Host Discovery 
@@ -90,26 +90,26 @@ Host Discovery
 	-R 					Force Reverse DNS Resolution
 	-n 					Disable Reverse DNS Resolution
 	--system-dns 				Alternative DNS Lookup
-	--dns-servers [servers]		Manually Specify DNS Server(s)
+	--dns-servers [servers]			Manually Specify DNS Server(s)
 	-sL [targets] 				Create a host list to scan (AKA DNS scan)
 
 Timing and Performance
-	-T0 			Serial, slowest scan 	(aka Paranoid, use with IDS/FW evasion)
-	-T1 			Serial, slow scan 	(aka Sneaky, use with IDS/FW evasion)
-	-T2 			Serial, normal speed scan 	(aka Polite, can take 10x longer)
-	-T3 			Parallel, normal speed scan 	(DEFAULT, aka Normal)
-	-T4 			Parallel, fast scan 	(aka Aggressive, nmap man recommends)
-	-T5 			Parallel, super fast scan	(aka Insane)
+	-T0 		Serial, slowest scan 		(aka Paranoid, use with IDS/FW evasion)
+	-T1 		Serial, slow scan 		(aka Sneaky, use with IDS/FW evasion)
+	-T2 		Serial, normal speed scan 	(aka Polite, can take 10x longer)
+	-T3 		Parallel, normal speed scan 	(DEFAULT, aka Normal)
+	-T4 		Parallel, fast scan 		(aka Aggressive, nmap man recommends)
+	-T5 		Parallel, super fast scan	(aka Insane)
 
 Firewall/IDS Evasion & Spoofing
 	-f 					Fragment Packets
 	-mtu 					Specify a Specific MTU
 	-D RND:[number] 			Use a Decoy
-	-sI [zombie ip] 				Idle Zombie Scan
+	-sI [zombie ip] 			Idle Zombie Scan
 	--source-port [port]			Manually Specify a Source Port
 	--data-length [size]			Append Random Data
 	--randomize-hosts			Randomize Target Scan Order
-	--spoof-mac [MAC|0|vendor]	Spoof MAC Address
+	--spoof-mac [MAC|0|vendor]		Spoof MAC Address
 	--badsum 				Send Bad Checksums
 
 Advanced Scanning Functions
@@ -125,7 +125,7 @@ Timing Options
 	--max-hostgroup [number] 		Maximum Host Group Size
 	--initial-rtt-timeout [time] 		Maximum RTT Timeout
 	--max-rtt-timeout [TTL] 		Initial RTT Timeout
-	--max-retries [number] 		Maximum Number of Retries
+	--max-retries [number] 			Maximum Number of Retries
 	--host-timeout [time] 			Host Timeout
 	--scan-delay [time] 			Minimum Scan Delay
 	--max-scan-delay [time] 		Maximum Scan Delay
@@ -137,17 +137,17 @@ Output Options
 	-oN scan.txt 				Normal output
 	-oX scan.xml				XML output
 	-oG scan.txt				Grepable output
-	-oA scan				    Normal, XML, and Grepable format all at once
+	-oA scan				Normal, XML, and Grepable format all at once
 	-oS scan.txt 				1337 Output
 
 Compare Scans
-	ndiff [scan1.xml] [scan2.xml] 			    Comparison Using Ndiff
-	ndiff -v [scan1.xml] [scan2.xml]		    Ndiff Verbose Mode
-	ndiff --xml [scan1.xml] [scan2.xml] 		XML Output Mode
+	ndiff [scan1.xml] [scan2.xml] 		Comparison Using Ndiff
+	ndiff -v [scan1.xml] [scan2.xml]	Ndiff Verbose Mode
+	ndiff --xml [scan1.xml] [scan2.xml] 	XML Output Mode
 
 Misc Other
 	--packet-trace 			Trace Packets
-	--iflist 				    Display Host Networking interfaces (no target IP specified)
+	--iflist 			Display Host Networking interfaces (no target IP specified)
 	-e [interface] 			Specify a Network Interface (no target IP specified)
 
 --Port Status--
@@ -156,10 +156,10 @@ Misc Other
 	Filter 				Vague; nothing heard back; possibly no client
 
 --Misc Other Scripts--
-Port 445 / SMB Shares port open
-	nmap -v -Pn --script smb-enum-shares.nse,smb-enum-users -p 445 10.10.201.33 
-	smbclient //10.10.201.33/anonymous
+	Port 445 / SMB Shares port open
+		nmap -v -Pn --script smb-enum-shares.nse,smb-enum-users -p 445 10.10.201.33 
+		 smbclient //10.10.201.33/anonymous
 
-Port 111 / RPC Bind
-	nmap -v -Pn --script=nfs-ls,nfs-statfs,nfs-showmount -p 111 10.10.201.33
+	Port 111 / RPC Bind
+		nmap -v -Pn --script=nfs-ls,nfs-statfs,nfs-showmount -p 111 10.10.201.33
 
