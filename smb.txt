@@ -207,3 +207,14 @@ rpcclient $> srvinfo
         platform_id     :       500
         os version      :       6.1
         server type     :       0x51003
+
+
+SID Anatomy
+S-1-5-21-1552841522-3835366585-4197357653-1002
+  S—Identifies the number as a SID
+    1—Version number
+      5—Designates the SECURITY_NT_AUTHORITY SID authority.
+        21-1552841522-3835366585-4197357653—The domain identifier
+          1002—The object’s relative identifier
+          (500 = domain admin account)
+          (512 = domain admin group)
