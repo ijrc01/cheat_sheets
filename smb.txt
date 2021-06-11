@@ -34,12 +34,12 @@ net view
   Server Name            Remark
 
   -----------------------------------
-  \\WIN7ESXI
+  \\WIN7
   The command completed successfully.
 
   net view \\<ip>
-  C:\Users\no> net view \\WIN7ESXI
-  Shared resources at \\WIN7ESXI
+  C:\Users\no> net view \\WIN7
+  Shared resources at \\WIN7
 
 
 
@@ -51,8 +51,8 @@ net view
   The command completed successfully.
 
 net view \\<ip> /all
-  C:\Users\no> net view \\WIN7ESXI /all
-  Shared resources at \\WIN7ESXI
+  C:\Users\no> net view \\WIN7 /all
+  Shared resources at \\WIN7
 
   Share name  Type  Used as  Comment
 
