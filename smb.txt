@@ -30,7 +30,7 @@ Misc
 
 Examples:
 net view
-  C:\Users\Joe> net view
+C:\Users\Joe> net view
   Server Name            Remark
 
   -----------------------------------
@@ -51,7 +51,7 @@ net view
   The command completed successfully.
 
 net view \\<ip> /all
-  C:\Users\Joe> net view \\WIN7 /all
+C:\Users\Joe> net view \\WIN7 /all
   Shared resources at \\WIN7
 
   Share name  Type  Used as  Comment
@@ -70,11 +70,11 @@ net view \\<ip> /all
   Computer               User name            Client Type       Opens Idle time
 
   -------------------------------------------------------------------------------
-  \\192.168.7.228        no                                         0 00:00:17
+  \\192.168.10.3        Joe                                         0 00:00:17
   The command completed successfully.
 
 net start
-  C:\Windows\system32> net start
+C:\Windows\system32> net start
   These Windows services are started:
 
      Application Information
@@ -87,15 +87,15 @@ net start
      <…>
 
 net user
-  C:\Windows\system32> net user
+C:\Windows\system32> net user
 
-  User accounts for \\WIN7ESXI
+  User accounts for \\WIN7
 
   -------------------------------------------------------------------------------
-  Administrator            Guest                    no
+  Administrator            Guest                    Joe
 
 net localgroup administrators
-  C:\Windows\system32> net localgroup administrators
+C:\Windows\system32> net localgroup administrators
   Alias name     administrators
   Comment        Administrators have complete and unrestricted access to the computer/domain
 
@@ -103,25 +103,25 @@ net localgroup administrators
 
   -------------------------------------------------------------------------------
   Administrator
-  no
+  Joe
   The command completed successfully.
 
 
 Linux
 Rpcclient
-  $ rpcclient 192.168.7.36 -U no                                                                                                                                         
-  Enter WORKGROUP\no's password:
+$ rpcclient 192.168.10.36 -U Joe                                                                                                                                  
+  Enter WORKGROUP\Joe's password:
  
 enumdomusers - enumerating users defined locally on the target server as well as any domain users the system knows about                                                                                                                                                    
 rpcclient $> enumdomusers                                                                                                                                                      
   user:[Administrator] rid:[0x1f4]                                                                                                                                               
   user:[Guest] rid:[0x1f5]
   user:[HomeGroupUser$] rid:[0x3ea]
-  user:[no] rid:[0x3e9]
+  user:[Joe] rid:[0x3e9]
 
 queryuser <rid>
 rpcclient $> queryuser 0x3e9
-          User Name   :   no
+          User Name   :   
           Full Name   :
           Home Drive  :
           Dir Drive   :
