@@ -1,7 +1,7 @@
 NMAP
 
 Common Scans
-	sudo nmap -vv -Pn -sV 192.168.100.1
+	sudo nmap -vv -Pn -sV 192.168.100.2
     sudo nmap -Pn -p 2381 -T1 -vv -oG port_2381.txt 10.10.10.0/24          Scan for specific port and output to grep file; STEALTH SCAN
     sudo nmap -vv -Pn -O --osscan-limit -sV -sC 192.168.100.1
 	sudo nmap -vv -Pn --script ssl-enum-ciphers -p 443 10.11.12.13            Check ciphers
