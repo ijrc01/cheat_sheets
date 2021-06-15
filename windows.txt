@@ -84,15 +84,19 @@ Disable SSLv2/3 from regedit
   Alternative tool: IISCrypto https://www.nartac.com/Products/IISCrypto/
   
 WMIC
-  wmic OS GET NAME 						                                                      Return OS name
-  wmic qfe list full /format:table 		                                                                      List of installed KBs (alternative: systeminfo)
+  wmic OS GET NAME 						                                                                                        Return OS name
+  wmic qfe list full /format:table 		                                                                                List of installed KBs (alternative: systeminfo)
   wmic useraccount where "LocalAccount='TRUE'" get Caption, Disabled, Domain, Lockout, PasswordExpires, SID, Status   List of local accounts
   wmic process get ProcessId,Description,ParentProcessId,ReadOperationCount,WriteOperationCount                       List running processes
   wmic product get Caption,Vendor,version,InstallDate                                                                 List installed applications
+  wmic product where name="AppName" call uninstall                                                                    Uninstall application (from wmic product get name)
       
-  query WMIC on remote domain-joined PC: /NODE:10.10.10.97 /USER:"domain\user"            #where 'domain\user' is domain admin
-  WMIC /NODE:192.168.1.1 COMPUTERSYSTEM GET USERNAME                                      Display signed-in users
-   
+  query WMIC on remote domain-joined PC: /NODE:10.10.10.97 /USER:"domain\user"                                        #where 'domain\user' is domain admin
+  WMIC /NODE:192.168.1.1 COMPUTERSYSTEM GET USERNAME                                                                  Display signed-in users
+
+Reg Query
+  reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall                  Display software which can be uninstalled
+  reg query HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall      Display software which can be uninstalled
    
 Services
   sc getkeyname "Windows Update"
