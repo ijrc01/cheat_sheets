@@ -26,6 +26,11 @@ Find files larger than X (cmd prompt)
   for /r c:\ %i in (*) do @if %~zi gtr 500000000 echo %i %~zi		            files greater than 500MB
   for /r c:\ %i in (*) do @if %~zi gtr 1000000000 echo %i %~zi	            files greater than 1GB
   
+List files in directory with wildcard path (powershell)
+  Get-ChildItem -Path C:\Users\*\Downloads\*.* -Recurse -Force
+  Get-ChildItem -Path C:\Users\*\AppData\Local\Microsoft\Outlook\*.ost 
+  
+  
 Windows Clean Disk to clear up HD space
   cleanmgr /AUTOCLEAN                                           remove files from the previous Windows installation or the previous in-place upgrade automatically; runs silently
   DISM.exe /Online /Cleanup-Image /AnalyzeComponentStore        Check if WinSxS folder needs cleanup
