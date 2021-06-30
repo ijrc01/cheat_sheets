@@ -21,14 +21,20 @@ Windows 10 Troubleshooting
   DISM /Online /Cleanup-Image /ScanHealth
   DISM /Online /Cleanup-image /Restorehealth
 
-Find files larger than X 
+Find Large Files
   (cmd)
     for /r c:\ %i in (*) do @if %~zi gtr 100000000 echo %i %~zi		            files greater than 100MB
     for /r c:\ %i in (*) do @if %~zi gtr 500000000 echo %i %~zi		            files greater than 500MB
     for /r c:\ %i in (*) do @if %~zi gtr 1000000000 echo %i %~zi	            files greater than 1GB
   (PS)
-    Get-ChildItem -Path C:\ -recurse | where-object {$_.length -gt 500000000} | Sort-Object length | ft fullname, length -auto
-    Get-ChildItem -Path C:\Windows\SoftwareDistribution\Download\ -recurse | where-object {$_.length -gt 100000000} | Sort-Object length | ft fullname, length -auto 
+    Get-ChildItem -Path C:\ -recurse | where-object {$_.length -gt 500000000} | Sort-Object length | ft fullname, length, CreationTime, LastAccessTime  -auto
+    Get-ChildItem -Path C:\ -recurse | where-object {$_.length -gt 100000000} | Sort-Object length | ft fullname, length, CreationTime, LastAccessTime  -auto
+    Get-ChildItem -Path C:\ -recurse | where-object {$_.length -gt 50000000} | Sort-Object length | ft fullname, length, CreationTime, LastAccessTime  -auto
+    Get-ChildItem -Path .   -recurse | where-object {$_.length -gt 50000000} | Sort-Object length | ft fullname, length, CreationTime, LastAccessTime  -auto
+    
+    Get-ChildItem -Path C:\Windows\SoftwareDistribution\Download\* -Recurse | where-object {$_.length -gt 100000000} | Sort-Object length | ft fullname, length, CreationTime, LastAccessTime  -auto
+    Get-ChildItem -Path C:\Windows\Temp\ -Recurse | where-object {$_.length -gt 100000000} | Sort-Object length | ft fullname, length, CreationTime, LastAccessTime  -auto
+    Get-ChildItem -Path $env:TEMP -Recurse | where-object {$_.length -gt 100000000} | Sort-Object length | ft fullname, length, CreationTime, LastAccessTime  -auto
     Get-ChildItem -Path C:\Users\*\Downloads\*.* -Recurse -Force | where-object {$_.length -gt 100000000} | Sort-Object length | ft fullname, length -auto
         See parameters in addition to fullname, length: get-childitem | get-member
     
@@ -139,4 +145,10 @@ Mozilla Firefox
   [install directory]\uninstall\helper.exe /S         Silent un-install
   firefox -v                                          Check version
   
-
+Delete all files order than X days (PS)
+  $Path = "C:\Windows\SoftwareDistribution\Download\"
+  $Daysback = "-30"
+ 
+  $CurrentDate = Get-Date
+  $DatetoDelete = $CurrentDate.AddDays($Daysback)
+  Get-ChildItem $Path -Recurse | Where-Object { $_.LastWriteTime -lt $DatetoDelete } | Remove-Item
