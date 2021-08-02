@@ -111,6 +111,12 @@ WMIC
   query WMIC on remote domain-joined PC: /NODE:10.10.10.97 /USER:"domain\user"                                        #where 'domain\user' is domain admin
   WMIC /NODE:192.168.1.1 COMPUTERSYSTEM GET USERNAME                                                                  Display signed-in users
 
+Stop Running Process via Powershell
+tasklist
+ Get-Process -id 12345
+  Stop-Process -Name "TakeControlRDLdr" -Force
+ 
+
 Reg Query
   reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall                  Display software which can be uninstalled
   reg query HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall      Display software which can be uninstalled
