@@ -121,12 +121,18 @@ Reg Query
   reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall                  Display software which can be uninstalled
   reg query HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall      Display software which can be uninstalled
    
-Services
+Service Management
   sc getkeyname "Windows Update"
   sc query wuauserv
   sc config wuauserv start= auto
   net stop wuauserv
   net start wuauserv
+  
+Service Investigation
+  sc getkeyname "CrowdStrike Falcon"    --query display name for service name
+   sc query csagent                     --query service for status
+  sc qc csfalconservice                 --query service for binary path (ie "C:\Program Files\CrowdStrike\CSFalconService.exe")
+    
   
 SMB Network Shares
   Get-Acl -Path \\Server01\ShareName  | Format-Table -Wrap        NTFS fileshares
