@@ -173,9 +173,12 @@ Windows Startup Folder
   run --> shell:common startup
     which is C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp
     
-Variables
+Variables (CLI)
   See all currently defined environment variables : set
   Query variable profile : set USERPROFILE
   %USERPROFILE% : C:\Users\John
   %ALLUSERSPROFILE% : C:\ProgramData
+  
+Variables (PowerShell)
+  $env:USERPROFILE : C:\Users\John
 
