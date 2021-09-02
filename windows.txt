@@ -181,4 +181,8 @@ Variables (CLI)
   
 Variables (PowerShell)
   $env:USERPROFILE : C:\Users\John
+  
+Delete Commands (cli)
+del /q "C:\Program Files (x86)\Folder"        delete FILES in \Folder quietly without prompt
+rmdir /q /s "C:\Program Files (x86)\Folder"   delete folder and sub-directors, quietly without prompt
 
