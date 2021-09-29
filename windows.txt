@@ -157,6 +157,9 @@ Mozilla Firefox
   [install directory]\uninstall\helper.exe /S         Silent un-install
   firefox -v                                          Check version
   
+Chrome
+  reg query "HKEY_CURRENT_USER\Software\Google\Chrome\BLBeacon" /v version        check version
+  
 Delete all files order than X days (PS)
   $Path = "C:\Windows\SoftwareDistribution\Download\"
   $Daysback = "-30"
