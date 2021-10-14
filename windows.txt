@@ -196,3 +196,5 @@ Google Chrome Browser Extensions
   Example: hdokiejnpimakedhajhdlcegeplioahd
   Solution: https://chrome.google.com/webstore/detail/PUT_ID_HERE
   
+Google Chrome Registry ADMX Location
+  Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\AdmxDefault\[key]
