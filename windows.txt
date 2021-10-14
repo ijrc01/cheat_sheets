@@ -191,3 +191,8 @@ rmdir /q /s "C:\Program Files (x86)\Folder"   delete folder and sub-directors, q
 
 net localgroup administrators domain\user /delete     delete user from admin group
 
+Google Chrome Browser Extensions
+  Find application by ID
+  Example: hdokiejnpimakedhajhdlcegeplioahd
+  Solution: https://chrome.google.com/webstore/detail/PUT_ID_HERE
+  
