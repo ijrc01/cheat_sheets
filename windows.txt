@@ -198,3 +198,6 @@ Google Chrome Browser Extensions
   
 Google Chrome Registry ADMX Location
   Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\AdmxDefault\[key]
+  
+PowerShell File Permissions
+  (Get-Acl -Path c:\apps\file.exe).Access.IdentityReference
