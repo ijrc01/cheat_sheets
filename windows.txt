@@ -150,6 +150,7 @@ SMB Network Shares
     
 Enable Powershell
   Set-ExecutionPolicy -ExecutionPolicy AllSigned -Scope Process
+  Set-ExecutionPolicy -ExecutionPolicy Unresctricted -Scope Process  
   
 query user       see users currently signed into machine
  
