@@ -190,7 +190,8 @@ Delete Commands (cli)
 del /q "C:\Program Files (x86)\Folder"        delete FILES in \Folder quietly without prompt
 rmdir /q /s "C:\Program Files (x86)\Folder"   delete folder and sub-directors, quietly without prompt
 
-net localgroup administrators domain\user /delete     delete user from admin group
+net localgroup administrators domain\user /delete             delete user from admin group
+net localgroup administrators AzureAD\user@domain.com /add    add AzureAD user to admin group
 
 Google Chrome Browser Extensions
   Find application by ID
