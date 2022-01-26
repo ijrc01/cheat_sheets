@@ -1,0 +1,1 @@
+Get-AzRoleDefinition | where  Name -EQ (Get-AzRoleAssignment -SignInName user@domain.com).RoleDefinitionName 
