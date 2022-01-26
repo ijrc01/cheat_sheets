@@ -1,3 +1,6 @@
 Permissions
   Get-AzRoleAssignment -SignInName user@domain.com
-  Get-AzRoleDefinition | where  Name -EQ (Get-AzRoleAssignment -SignInName user@domain.com).RoleDefinitionName 
+  Get-AzRoleDefinition | where  Name -EQ (Get-AzRoleAssignment -SignInName user@domain.com).RoleDefinitionName
+  
+  Get-AzProviderOperation */virtualMachines/*
+  Get-AzProviderOperation *
