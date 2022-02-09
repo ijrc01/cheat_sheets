@@ -207,5 +207,5 @@ PowerShell File Permissions
 Password Management for Local Accounts
   wmic UserAccount where Name='joe' set PasswordExpires=True
   net user "joe" /logonpasswordchg:yes
-  net accounts /maxpwage:90
+  net accounts /maxpwage:90 /MINPWLEN:16
   net user "joe" | findstr /i Password
