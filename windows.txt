@@ -87,6 +87,8 @@ Windows Event Viewer (Powershell)
   Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4625} -MaxEvents 5 | Format-List                           Show recent failed logins from Security log
   Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-PowerShell/Operational'} -MaxEvents 5 | Format-List    Show log PowerShell/Operational
   Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-PowerShell/Operational'; ID=4104} | Select-Object -Property Message | Select-String -Pattern 'SecureString'
+  Get-WinEvent -ProviderName 'Microsoft-Windows-Security-Auditing' -FilterXPath "*[System[EventID=4624] and EventData[Data[@Name='LogonType']='20']]" -MaxEvents 25 | Format-List
+ 
  
 Disable SSLv2/3 from regedit
  HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\
