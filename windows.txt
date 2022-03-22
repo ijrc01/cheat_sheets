@@ -37,7 +37,10 @@ Find Large Files
     Get-ChildItem -Path $env:TEMP -Recurse | where-object {$_.length -gt 100000000} | Sort-Object length | ft fullname, length, CreationTime, LastAccessTime  -auto
     Get-ChildItem -Path C:\Users\*\Downloads\*.* -Recurse -Force | where-object {$_.length -gt 100000000} | Sort-Object length | ft fullname, length -auto
         See parameters in addition to fullname, length: get-childitem | get-member
-    
+
+Find Files by extension
+  gci C:\ *.exe -file -ea silent -recurse
+
 List files in directory with wildcard path (powershell)
   Get-ChildItem -Path C:\Users\*\Downloads\*.* -Recurse -Force | where-object {$_.length -gt 100000000} | Sort-Object length | ft fullname, length -auto
   Get-ChildItem -Path C:\Users\*\AppData\Local\Microsoft\Outlook\*.ost | Sort-Object length | ft fullname, length -auto
@@ -66,7 +69,7 @@ Ping to test packet loss
   ping -n 50 -l 1000 8.8.8.8
   
 Windows File Locations
-  C:\Windows\SoftwareDistribution\Download			              windows updates download location
+    C:\Windows\SoftwareDistribution\Download			              windows updates download location
   C:\Windows\System32\winevt\Logs 					                  windows event logs
   C:\ProgramData\MspPlatform\FileCacheServiceAgent\cache      Solarwinds patch cache
   C:\Users\All Users\MspPlatform\FileCacheServiceAgent\cache  Solarwinds patch cache alternative
@@ -211,3 +214,9 @@ Password Management for Local Accounts
   net user "joe" /logonpasswordchg:yes
   net accounts /maxpwage:90 /MINPWLEN:16
   net user "joe" | findstr /i Password
+  
+Fix Stuck Windows Update
+  cd %Windir%\SoftwareDistribution
+  del /f /s /q Download
+  #restart pc
+  # Download and run Windows Update Assistant https://www.microsoft.com/en-us/software-download/windows10
