@@ -1,0 +1,2 @@
+schtasks /Delete /tn Reboot /F
+schtasks /Create /tn Reboot /tr "shutdown /r /t 60" /sc once /ST 23:59 /RU system
