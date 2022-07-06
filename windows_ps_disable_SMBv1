@@ -1,0 +1,8 @@
+#Windows 10, Windows 8.1, Windows Server 2019, Windows Server 2016, and Windows 2012 R2
+Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol
+
+#Windows 8.1, Windows Server 2012, Windows Server 2012 R2, Windows 10, and Windows Server 2019
+Set-SmbServerConfiguration -EnableSMB1Protocol $false
+
+#Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" SMB1 -Type DWORD -Value 0 -Force
