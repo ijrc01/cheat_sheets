@@ -1,0 +1,3 @@
+curl.exe -o chrome.msi -4 https://[url]/chrome.msi
+msiexec /quiet /i "chrome.msi"
+
