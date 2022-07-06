@@ -1,0 +1,19 @@
+#Change common ransomware file type association to open in Notepad instead when double-click'd
+cmd /c --% ftype batfile="%SystemRoot%\system32\NOTEPAD.EXE" "%1"
+cmd /c --% ftype htafile="%SystemRoot%\system32\NOTEPAD.EXE" "%1"
+cmd /c --% ftype wshfile="%SystemRoot%\system32\NOTEPAD.EXE" "%1"
+cmd /c --% ftype wsffile="%SystemRoot%\system32\NOTEPAD.EXE" "%1"
+cmd /c --% ftype jsfile="%SystemRoot%\system32\NOTEPAD.EXE" "%1"
+cmd /c --% ftype jsefile="%SystemRoot%\system32\NOTEPAD.EXE" "%1"
+cmd /c --% ftype vbefile="%SystemRoot%\system32\NOTEPAD.EXE" "%1"
+cmd /c --% ftype vbsfile="%SystemRoot%\system32\NOTEPAD.EXE" "%1"
+#defaults
+#deteremined by running 'ftype batfile' in CMD
+#batfile="%1" %*
+#htafile=C:\Windows\SysWOW64\mshta.exe "%1" {1E460BD7-F1C3-4B2E-88BF-4E770A288AF5}%U{1E460BD7-F1C3-4B2E-88BF-4E770A288AF5} %*
+#wshfile="%SystemRoot%\System32\WScript.exe" "%1" %*
+#wsffile="%SystemRoot%\System32\WScript.exe" "%1" %*
+#jsfile=C:\Windows\System32\WScript.exe "%1" %*
+#jsefile=C:\Windows\System32\WScript.exe "%1" %*
+#vbefile="%SystemRoot%\System32\WScript.exe" "%1" %*
+#vbsfile="%SystemRoot%\System32\WScript.exe" "%1" %*
