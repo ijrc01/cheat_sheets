@@ -1,0 +1,44 @@
+##SMBv1 - disable
+#Windows 10, Windows 8.1, Windows Server 2019, Windows Server 2016, and Windows 2012 R2
+Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol
+#Windows 8.1, Windows Server 2012, Windows Server 2012 R2, Windows 10, and Windows Server 2019
+Set-SmbServerConfiguration -EnableSMB1Protocol $false
+#Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" SMB1 -Type DWORD -Value 0 -Force
+
+##SMB - require signing
+Get-Item -path HKLM:System\CurrentControlSet\Services\LanManServer\Parameters | findstr -i EnableSecuritySignature
+Get-Item -path HKLM:System\CurrentControlSet\Services\LanManServer\Parameters | findstr -i RequireSecuritySignature
+REG ADD "HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters" /v EnableSecuritySignature /t REG_DWORD /d 1 /f
+REG ADD "HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters" /v RequireSecuritySignature /t REG_DWORD /d 1 /f
+Get-Item -path HKLM:System\CurrentControlSet\Services\LanManServer\Parameters | findstr -i EnableSecuritySignature
+Get-Item -path HKLM:System\CurrentControlSet\Services\LanManServer\Parameters | findstr -i RequireSecuritySignature
+
+##Disable RC4 cipher suite
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers\RC4 40/128' /v Enabled /t REG_DWORD /d 0 /f
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers\RC4 56/128' /v Enabled /t REG_DWORD /d 0 /f
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers\RC4 64/128' /v Enabled /t REG_DWORD /d 0 /f
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers\RC4 128/128' /v Enabled /t REG_DWORD /d 0 /f
+
+##Disable 3DES cipher suite
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers\Triple DES 168' /v Enabled /t REG_DWORD /d 0 /f
+
+##Disable SSLv2
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server' /v Enabled /t REG_DWORD /d 0 /f
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server' /v DisabledByDefault /t REG_DWORD /d 1 /f
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Client' /v Enabled /t REG_DWORD /d 0 /f
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Client' /v DisabledByDefault /t REG_DWORD /d 1 /f
+
+##Disable SSLv3
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server' /v Enabled /t REG_DWORD /d 0 /f
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server' /v DisabledByDefault /t REG_DWORD /d 1 /f
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Client' /v Enabled /t REG_DWORD /d 0 /f
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Client' /v DisabledByDefault /t REG_DWORD /d 1 /f
+
+##Disable TLS 1.0 Server
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0\Server' /v Enabled /t REG_DWORD /d 0 /f
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0\Server' /v DisabledByDefault /t REG_DWORD /d 1 /f
+
+##Disable TLS 1.1 Server
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Server' /v Enabled /t REG_DWORD /d 0 /f
+REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Server' /v DisabledByDefault /t REG_DWORD /d 1 /f
