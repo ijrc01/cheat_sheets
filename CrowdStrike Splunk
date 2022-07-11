@@ -1,0 +1,89 @@
+Communication Between 2 Hosts
+	index=main NOT NeighborListIP4 cid=* 10.10.10.114 10.10.10.36 
+	| eval time=strftime(timestamp/1000,"%Y-%m-%d %H:%M:%S %Z")
+	| table time, ComputerName, LocalIP, LPort, RemoteIP, RPort, event_simpleName
+	| rename ComputerName as SHostname, LocalIP as SA, LPort as SP, RemoteIP as DA, RPort as DP 
+	| sort time desc
+
+
+
+
+
+RFC1918 Communications for a LocalIP
+	index=main NOT NeighborListIP4 NOT UserLogonFailed2 NOT DnsRequest cid=* 
+	AND LocalIP=10.10.10.114 
+	AND (LocalIP=10.0.0.0/8 OR LocalIP=172.16.0.0/12 OR LocalIP=192.168.0.0/16)
+	| eval time=strftime(timestamp/1000,"%Y-%m-%d %H:%M:%S %Z")
+	| table ComputerName, RemoteIP
+	| stats count(RemoteIP) by ComputerName, RemoteIP
+	| sort count(RemoteIP) desc
+	| rename ComputerName as SHostname, RemoteIP as DA
+
+
+Hostname and IP List
+index=main cid=* AND (LocalIP=10.0.0.0/8 OR LocalIP=172.16.0.0/12 OR LocalIP=192.168.0.0/16)
+	| table ComputerName, LocalIP
+	| dedup ComputerName, LocalIP
+	| sort by ComputerName
+
+DNS Queries
+	Top Domains by Host
+		index=main event_simpleName=DnsRequest ComputerName=DESKTOP-QUF
+		| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
+		| table Domain
+		| stats count(Domain) by Domain
+		| sort by count(Domain) desc
+
+	Domains by Date (dedups if domain accessed more than once on a given date)
+		index=main event_simpleName=DnsRequest ComputerName=DESKTOP-QUF
+		| eval Date=strftime(timestamp/1000,"%Y-%m-%d")
+		| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
+		| table Domain, Date
+		| dedup Domain, Date
+		| sort by count(Domain) desc
+
+	Domains by Date, with Domain Count by Day
+		index=main event_simpleName=DnsRequest ComputerName=DESKTOP-QUF
+		| eval Date=strftime(timestamp/1000,"%Y-%m-%d")
+		| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
+		| table Domain, Date
+		| stats count(Domain) by Domain, Date
+		| sort by Date, count(Domain) desc
+		
+	DNS Lookups by Date and Time
+		index=main event_simpleName=DnsRequest ComputerName=LPT28 
+		| eval Date=strftime(timestamp/1000,"%Y-%m-%dT%H:%M:%S")
+		| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
+		| table Domain, Date 
+
+		index=main event_simpleName=DnsRequest ComputerName=LPT20 
+		| eval Date=strftime(timestamp/1000,"%Y-%m-%dT%H:%M:%S")
+		| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
+		| table Domain, Date, DomainName
+
+
+
+index=main event_simpleName=DnsRequest DomainName=*dashlane.com
+		| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
+		| table ComputerName, Domain
+		| dedup ComputerName, Domain
+		| sort by ComputerName, Domain
+
+
+
+
+**Search for running process on machines**
+event_platform=win event_simpleName=ProcessRollup2 FileName!=spoolsv.exe ProductType=1
+| lookup local=true aid_master aid OUTPUT Version MachineDomain OU SiteName
+| eval ProductType=case(ProductType = "1","Workstation", ProductType = "2","Domain Controller", ProductType = "3","Server") 
+| stats latest(ComputerName) as hostName values(FileName) as fileRun latest(ProcessStartTime_decimal) as lastRunTime by aid,Version ProductType, MachineDomain OU SiteName
+| convert ctime(lastRunTime)
+| sort + hostName
+
+
+
+
+
+Explore
+event_simpleName=UserLogonFailed2
+event_simpleName=DnsRequest
