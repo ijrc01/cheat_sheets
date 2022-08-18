@@ -5,6 +5,9 @@ Startup folder
   HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce
   HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run
   HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce
+Example Use
+  c:\windows\system32\cmd.exe /c "REG ADD "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run" /v "launch_calc" /t REG_SZ /d "c:\windows\system32\WindowsPowerShell\v1.0\powershell.exe -w hidden c:\windows\system32\calc.exe" /f"
+
   
 Launch programs or set folder items for persistence  
   HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders 
