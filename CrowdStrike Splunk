@@ -1,3 +1,49 @@
+-----DNS Activity by Date AND Time----
+index=main event_simpleName=DnsRequest DomainName=* ComputerName=*
+| eval Date=strftime(timestamp/1000,"%Y-%m-%dT%H:%M:%S")
+| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
+| table ComputerName, Domain, Date
+| dedup ComputerName, Domain, Date
+| sort by ComputerName, Domain, Date
+
+-----DNS Activity by Date Only-----
+index=main event_simpleName=DnsRequest DomainName=* ComputerName=*
+| eval Date=strftime(timestamp/1000,"%Y-%m-%d")
+| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
+| table ComputerName, Domain, Date
+| dedup ComputerName, Domain, Date
+| sort by ComputerName, Domain, Date
+
+-----Private IP and Public IP by Host-----
+index=main cid=* AND (LocalIP=10.0.0.0/8 OR LocalIP=172.16.0.0/12 OR LocalIP=192.168.0.0/16)
+| table ComputerName, LocalIP, "Agent IP"
+| dedup ComputerName, LocalIP, "Agent IP"
+| sort by ComputerName
+| rename LocalIP as PrivateIP, "Agent IP" as PublicIP
+
+----Single host, DNS Count by Date----
+index=main event_simpleName=DnsRequest ComputerName=pc1
+| eval Date=strftime(timestamp/1000,"%Y-%m-%d")
+| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
+| table Domain, Date
+| stats count(Domain) by Domain, Date
+| sort by Date, count(Domain) desc
+
+----Single Host Investigation - Domains by Date AND Time----
+index=main event_simpleName=DnsRequest ComputerName=pc1
+| eval Date=strftime(timestamp/1000,"%Y-%m-%dT%H:%M:%S")
+| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
+| rename Domain as TLD, Date as DateTime, DomainName as FQDN 
+| table DateTime, FQDN, TLD
+| where TLD!=""
+
+
+----------------------------------------------------------------------------------------
+
+
+
+
+
 Communication Between 2 Hosts
 	index=main NOT NeighborListIP4 cid=* 10.10.10.114 10.10.10.36 
 	| eval time=strftime(timestamp/1000,"%Y-%m-%d %H:%M:%S %Z")
@@ -20,11 +66,7 @@ RFC1918 Communications for a LocalIP
 	| rename ComputerName as SHostname, RemoteIP as DA
 
 
-Hostname and IP List
-index=main cid=* AND (LocalIP=10.0.0.0/8 OR LocalIP=172.16.0.0/12 OR LocalIP=192.168.0.0/16)
-	| table ComputerName, LocalIP
-	| dedup ComputerName, LocalIP
-	| sort by ComputerName
+
 
 DNS Queries
 	Top Domains by Host
@@ -42,32 +84,25 @@ DNS Queries
 		| dedup Domain, Date
 		| sort by count(Domain) desc
 
-	Domains by Date, with Domain Count by Day
-		index=main event_simpleName=DnsRequest ComputerName=DESKTOP-QUF
-		| eval Date=strftime(timestamp/1000,"%Y-%m-%d")
-		| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
-		| table Domain, Date
-		| stats count(Domain) by Domain, Date
-		| sort by Date, count(Domain) desc
+
 		
-	DNS Lookups by Date and Time
-		index=main event_simpleName=DnsRequest ComputerName=LPT28 
-		| eval Date=strftime(timestamp/1000,"%Y-%m-%dT%H:%M:%S")
-		| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
-		| table Domain, Date 
-
-		index=main event_simpleName=DnsRequest ComputerName=LPT20 
-		| eval Date=strftime(timestamp/1000,"%Y-%m-%dT%H:%M:%S")
-		| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
-		| table Domain, Date, DomainName
 
 
 
-index=main event_simpleName=DnsRequest DomainName=*dashlane.com
-		| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
-		| table ComputerName, Domain
-		| dedup ComputerName, Domain
-		| sort by ComputerName, Domain
+
+--DNS Activity by Host--
+index=main event_simpleName=DnsRequest DomainName=* ComputerName=*
+| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
+| table ComputerName, Domain, Date
+| dedup ComputerName, Domain, Date
+| sort by ComputerName, Domain, Date
+
+
+--DNS Activity by Host, --
+index=main event_simpleName=DnsRequest ComputerName=pc1 
+| eval Date=strftime(timestamp/1000,"%Y-%m-%dT%H:%M:%S")
+| rex field=DomainName "(?<Domain>[^\.\s]+\.[^\.\s]+)$"
+| table Domain, Date, DomainName
 
 
 
