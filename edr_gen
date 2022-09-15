@@ -1,4 +1,21 @@
+whoami
+echo net localgroup administrators
 
+wmic OS GET NAME
+wmic PRODUCT GET NAME
+
+net stop wuauserv
+net start wuauserv
+net stop bits
+net start bits
+
+echo hacker p@$$w0rd > c:\secret.txt
+echo net localgroup administrators > c:\secret.ps1
+
+calc.exe
+explorer.exe
+
+(Get-ACL -path c:\windows\system32\calc.exe).Access.IdentityReference
 
 REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers\RC4 40/128' /v Enabled /t REG_DWORD /d 0 /f
 REG ADD 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers\RC4 56/128' /v Enabled /t REG_DWORD /d 0 /f
